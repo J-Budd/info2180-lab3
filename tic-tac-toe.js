@@ -9,26 +9,34 @@ const winConditions = [
     [2, 5, 8],
     [3, 4, 5],
     [6, 7, 8]   
-]
+];
 
 //Ex 1
 document.addEventListener('DOMContentLoaded', () => {
     const square = document.querySelectorAll("#board div");
     square.forEach(square => square.classList.add('square'));
+    //Ex 3
     square.forEach(square => square.addEventListener('mouseover', (e) => {
         e.target.classList.add('hover');
     }));
     square.forEach(square => square.addEventListener('mouseout', (e) => {
         e.target.classList.remove('hover');
     }));
+    //
     square.forEach(square => square.addEventListener('click', squareClicked));
 });
 
 
 
+function getSquaresList(){
+    let squaresList = document.querySelectorAll('div.square');
+    return squaresList;
+}
+
 //Ex 2
 function squareClicked(e){
     const starget = e.target;
+    
 
     if (starget.innerHTML != ""){
         return;
@@ -44,11 +52,24 @@ function squareClicked(e){
         player = 'X';
     }
 
-    checkWinner();
+    let squares = Array.from(getSquaresList());
+    checkWinner(squares);
 }
 
 
 //Ex 4
-function checkWinner(){
+function checkWinner(array){
+    for (let condition of winConditions) {
+        let sq1 = array[condition[0]].innerHTML;
+        let sq2 = array[condition[1]].innerHTML;
+        let sq3 = array[condition[2]].innerHTML;
+
+        if ((sq1 != "") && (sq2 != "") && (sq3 != "")){
+            if ((sq1 == sq2) && (sq2 == sq3)){
+                document.querySelector("div#status").innerHTML = ("Congratulations! " + sq1 + " is the Winner!");
+                document.getElementById('status').classList.add('you-won');
+            }
+        }
+    }
 
 }
