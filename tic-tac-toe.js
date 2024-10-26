@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     //
     square.forEach(square => square.addEventListener('click', squareClicked));
+    let reset = document.querySelector("button");
+    reset.addEventListener('click', resetGame);
 });
 
 
@@ -37,11 +39,11 @@ function getSquaresList(){
 function squareClicked(e){
     const starget = e.target;
     
-
+    //Ex6
     if (starget.innerHTML != ""){
         return;
     }
-
+    //
     if (player == 'X'){
         starget.classList.add("X");
         starget.innerHTML = "X";
@@ -68,8 +70,23 @@ function checkWinner(array){
             if ((sq1 == sq2) && (sq2 == sq3)){
                 document.querySelector("div#status").innerHTML = ("Congratulations! " + sq1 + " is the Winner!");
                 document.getElementById('status').classList.add('you-won');
+                //Ex 6
+                for (let sq of getSquaresList()){
+                    sq.removeEventListener("click", squareClicked);
+                }
+                //
             }
         }
     }
+}
 
+//Ex 5
+function resetGame(){
+    for (let sq of getSquaresList()){
+        sq.innerHTML = "";
+        sq.classList.remove("X", "O");
+        sq.addEventListener("click", squareClicked);
+    }
+    document.getElementById('status').classList.remove('you-won');
+    document.getElementById('status').innerHTML = "Move your mouse over a square and click to play an X or an O.";
 }
